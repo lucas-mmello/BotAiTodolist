@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node api/gerar-tarefas.ts"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
     "openai": "^4.27.0"
   },
