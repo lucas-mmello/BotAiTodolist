@@ -10,13 +10,20 @@
       "NODE_VERSION": "20.x"
     }
   },
-  "headers": [
+  "builds": [
     {
-      "source": "/api/(.*)",
+      "src": "api/gerar-tarefas.ts",
+      "use": "@vercel/node@3.2.1"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/gerar-tarefas.ts",
+      "methods": ["POST", "OPTIONS"],
       "headers": [
         { "key": "Access-Control-Allow-Credentials", "value": "true" },
         { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "POST, OPTIONS" },
         { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
       ]
     }
