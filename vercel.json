@@ -13,14 +13,11 @@
   ],
   "routes": [
     {
-      "src": "/api/gerar-tarefas",
-      "dest": "/api/gerar-tarefas.ts",
+      "src": "/(.*)",
+      "dest": "api/gerar-tarefas.ts",
       "methods": ["POST", "OPTIONS"],
       "headers": {
-        "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type"
+        "Access-Control-Allow-Origin": "*"
       }
     }
   ]
