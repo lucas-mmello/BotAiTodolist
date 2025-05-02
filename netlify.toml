@@ -3,6 +3,3 @@
 
 [build.environment]
   NODE_VERSION = "16" # Versão do Node.js
-
-[[plugins]]
-  package = "@netlify/plugin-functions-core"
