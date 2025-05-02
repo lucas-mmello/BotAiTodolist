@@ -7,6 +7,8 @@
 import { HfInference } from "@huggingface/inference";
 import dotenv from "dotenv";
 dotenv.config();
+import fetch from "node-fetch";
+global.fetch = fetch;
 
 const openai = new HfInference(process.env.OPENAI_API_KEY);
 
