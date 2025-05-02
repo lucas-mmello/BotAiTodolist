@@ -1,13 +1,15 @@
 {
   "name": "todo-ai-api",
   "version": "1.0.0",
-  "engines": {
-    "node": "20.x"
-  },
   "dependencies": {
     "openai": "^3.2.1"
   },
   "devDependencies": {
-    "@vercel/node": "^3.2.1"
+    "@netlify/functions": "^0.0.8"
+  },
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "netlify build",
+    "start": "netlify start"
   }
 }

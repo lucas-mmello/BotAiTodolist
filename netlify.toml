@@ -1,0 +1,8 @@
+[build]
+  functions = "netlify/functions" # Pasta onde as funções serverless estão
+
+[build.environment]
+  NODE_VERSION = "20.x" # Versão do Node.js
+
+[[plugins]]
+  package = "@netlify/plugin-functions-core"
