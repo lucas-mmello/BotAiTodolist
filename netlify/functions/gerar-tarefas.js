@@ -4,29 +4,27 @@ const openai = new OpenAIApi(
   new Configuration({ apiKey: process.env.OPENAI_API_KEY })
 );
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
   const allowedOrigins = [
     "http://localhost:5173",
     "https://todolist-local-cicd.netlify.app",
   ];
 
   const origin = event.headers.origin;
-  if (origin && allowedOrigins.includes(origin)) {
-    return {
-      statusCode: 200,
-      headers: {
-        "Access-Control-Allow-Origin": origin,
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Credentials": "true",
-      },
-      body: JSON.stringify({ success: true }),
-    };
-  }
+  const corsHeaders = {
+    "Access-Control-Allow-Origin": allowedOrigins.includes(origin)
+      ? origin
+      : "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Credentials": "true",
+  };
 
+  // Pré-flight request (CORS)
   if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 204,
+      headers: corsHeaders,
       body: "",
     };
   }
@@ -34,6 +32,7 @@ exports.handler = async (event, context) => {
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
+      headers: corsHeaders,
       body: JSON.stringify({ error: "Método não permitido. Use POST." }),
     };
   }
@@ -42,6 +41,7 @@ exports.handler = async (event, context) => {
   if (!input || typeof input !== "string") {
     return {
       statusCode: 400,
+      headers: corsHeaders,
       body: JSON.stringify({ error: "Input inválido" }),
     };
   }
@@ -65,12 +65,14 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 200,
+      headers: corsHeaders,
       body: JSON.stringify({ success: true, data: tarefas }),
     };
   } catch (error) {
     console.error("Erro:", error.message);
     return {
       statusCode: 500,
+      headers: corsHeaders,
       body: JSON.stringify({ success: false, error: error.message }),
     };
   }
