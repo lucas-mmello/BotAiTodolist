@@ -1,30 +1,25 @@
-import { VercelRequest, VercelResponse } from "@vercel/node";
-import { OpenAI } from "openai";
+import OpenAI from "openai";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://todolist-local-cicd.netlify.app",
-];
+/** @param {import('@vercel/node').VercelRequest} req */
+/** @param {import('@vercel/node').VercelResponse} res */
+export default async function handler(req, res) {
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// Função para setar os cabeçalhos CORS corretamente
-function setCORSHeaders(req: VercelRequest, res: VercelResponse) {
+  const allowedOrigins = [
+    "http://localhost:5173",
+    "https://todolist-local-cicd.netlify.app",
+  ];
+
   const origin = req.headers.origin;
-
   if (origin && allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
-
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader("Access-Control-Allow-Credentials", "true");
-}
-
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  setCORSHeaders(req, res); // 🔐 Sempre setar
 
   if (req.method === "OPTIONS") {
-    return res.status(204).end(); // ✅ Responde preflight
+    return res.status(204).end();
   }
 
   if (req.method !== "POST") {
@@ -54,7 +49,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const tarefas = JSON.parse(content || "[]");
 
     res.status(200).json({ success: true, data: tarefas });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Erro na geração:", error.message);
     res.status(500).json({ success: false, error: error.message });
   }

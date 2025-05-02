@@ -7,14 +7,14 @@
   },
   "builds": [
     {
-      "src": "api/gerar-tarefas.ts",
+      "src": "api/gerar-tarefas.js",
       "use": "@vercel/node@3.2.1"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "api/gerar-tarefas.ts",
+      "dest": "api/gerar-tarefas.js",
       "methods": ["POST", "OPTIONS"],
       "headers": {
         "Access-Control-Allow-Origin": "*"
