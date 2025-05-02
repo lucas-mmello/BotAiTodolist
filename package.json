@@ -1,11 +1,7 @@
 {
   "name": "todo-ai-api",
   "version": "1.0.0",
-  "main": "index.js",
   "type": "module",
-  "scripts": {
-    "start": "node api/gerar-tarefas.ts"
-  },
   "engines": {
     "node": "20.x"
   },
@@ -13,6 +9,7 @@
     "openai": "^4.27.0"
   },
   "devDependencies": {
-    "@vercel/node": "^3.2.1"
+    "@vercel/node": "^3.2.1",
+    "typescript": "^5.3.0"
   }
 }
