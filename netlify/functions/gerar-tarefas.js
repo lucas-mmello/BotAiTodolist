@@ -47,6 +47,7 @@ exports.handler = async (event) => {
   }
 
   try {
+    console.log("Input:", input);
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       temperature: 0.7,
@@ -59,7 +60,7 @@ exports.handler = async (event) => {
         { role: "user", content: input },
       ],
     });
-
+    console.log("Resposta:", completion.data?.choices[0]?.message?.content);
     const content = completion.data.choices[0]?.message?.content;
     const tarefas = JSON.parse(content || "[]");
 
