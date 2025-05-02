@@ -1,15 +1,15 @@
-import OpenAI from "openai";
+// api/gerar-tarefas.js
+const { Configuration, OpenAIApi } = require("openai");
 
-/** @param {import('@vercel/node').VercelRequest} req */
-/** @param {import('@vercel/node').VercelResponse} res */
-export default async function handler(req, res) {
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAIApi(
+  new Configuration({ apiKey: process.env.OPENAI_API_KEY })
+);
 
+module.exports = async (req, res) => {
   const allowedOrigins = [
     "http://localhost:5173",
     "https://todolist-local-cicd.netlify.app",
   ];
-
   const origin = req.headers.origin;
   if (origin && allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
@@ -18,9 +18,7 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader("Access-Control-Allow-Credentials", "true");
 
-  if (req.method === "OPTIONS") {
-    return res.status(204).end();
-  }
+  if (req.method === "OPTIONS") return res.status(204).end();
 
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Método não permitido. Use POST." });
@@ -32,7 +30,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const completion = await openai.chat.completions.create({
+    const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       temperature: 0.7,
       messages: [
@@ -45,12 +43,12 @@ export default async function handler(req, res) {
       ],
     });
 
-    const content = completion.choices[0]?.message?.content;
+    const content = completion.data.choices[0]?.message?.content;
     const tarefas = JSON.parse(content || "[]");
 
     res.status(200).json({ success: true, data: tarefas });
   } catch (error) {
-    console.error("Erro na geração:", error.message);
+    console.error("Erro:", error.message);
     res.status(500).json({ success: false, error: error.message });
   }
-}
+};
