@@ -2,18 +2,22 @@ import { VercelRequest, VercelResponse } from "@vercel/node";
 import { OpenAI } from "openai";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://todolist-local-cicd.netlify.app",
+];
 function setCORSHeaders(res: VercelResponse) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigins);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   setCORSHeaders(res); // 🔐 Sempre setar
 
   if (req.method === "OPTIONS") {
-    return res.status(200).end(); // ✅ Responde preflight
+    return res.status(204).end(); // ✅ Responde preflight
   }
 
   if (req.method !== "POST") {
