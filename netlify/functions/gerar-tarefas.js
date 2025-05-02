@@ -1,8 +1,14 @@
-const { Configuration, OpenAIApi } = require("openai");
+// const { Configuration, OpenAIApi } = require("openai");
 
-const openai = new OpenAIApi(
-  new Configuration({ apiKey: process.env.OPENAI_API_KEY })
-);
+// const openai = new OpenAIApi(
+//   new Configuration({ apiKey: process.env.OPENAI_API_KEY })
+// );
+
+import { HfInference } from "@huggingface/inference";
+import dotenv from "dotenv";
+dotenv.config();
+
+const openai = new HfInference(process.env.OPENAI_API_KEY);
 
 exports.handler = async (event) => {
   const allowedOrigins = [
@@ -48,22 +54,53 @@ exports.handler = async (event) => {
 
   try {
     console.log("Input:", input);
-    const completion = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
-      temperature: 0.7,
-      messages: [
-        {
-          role: "system",
-          content:
-            'Você é um assistente que gera tarefas em formato JSON para uma lista de tarefas. Cada item deve conter "title", "description" e "text". Retorne apenas um array JSON.',
-        },
-        { role: "user", content: input },
-      ],
-    });
-    console.log("Resposta:", completion.data?.choices[0]?.message?.content);
-    const content = completion.data.choices[0]?.message?.content;
-    const tarefas = JSON.parse(content || "[]");
+    // const completion = await openai.createChatCompletion({
+    //   model: "gpt-3.5-turbo",
+    //   temperature: 0.7,
+    //   messages: [
+    //     {
+    //       role: "system",
+    //       content:
+    //         'Você é um assistente que gera tarefas em formato JSON para uma lista de tarefas. Cada item deve conter "title", "description" e "text". Retorne apenas um array JSON.',
+    //     },
+    //     { role: "user", content: input },
+    //   ],
+    // });
+    // console.log("Resposta:", completion.data?.choices[0]?.message?.content);
+    // const content = completion.data.choices[0]?.message?.content;
+    // const tarefas = JSON.parse(content || "[]");
 
+    const response = await openai.textGeneration({
+      model: "gpt2",
+      inputs: `Voce é um assistente que gera tarefas em formato JSON para uma lista de tarefas. Cada item deve conter "title", "description" e "text". Retorne apenas um array JSON.`,
+      parameters: {
+        max_new_tokens: 300,
+        temperature: 0.7,
+      },
+    });
+
+    const rawText = response.generated_text;
+    console.log("Resposta:", rawText);
+
+    let tarefas = [];
+    try {
+      // Tenta extrair apenas o array JSON de dentro do texto
+      const jsonMatch = rawText.match(/\[.*\]/s);
+      if (jsonMatch) {
+        tarefas = JSON.parse(jsonMatch[0]);
+      } else {
+        throw new Error("JSON não encontrado na resposta.");
+      }
+    } catch (parseError) {
+      return {
+        statusCode: 500,
+        headers: corsHeaders,
+        body: JSON.stringify({
+          success: false,
+          error: "Erro ao interpretar a resposta da IA.",
+        }),
+      };
+    }
     return {
       statusCode: 200,
       headers: corsHeaders,

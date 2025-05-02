@@ -2,6 +2,8 @@
   "name": "todo-ai-api",
   "version": "1.0.0",
   "dependencies": {
+    "@huggingface/inference": "^3.10.0",
+    "dotenv": "^16.5.0",
     "openai": "^3.2.1"
   },
   "engines": {
