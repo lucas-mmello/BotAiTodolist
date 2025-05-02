@@ -18,14 +18,15 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "/api/gerar-tarefas",
       "dest": "/api/gerar-tarefas.ts",
       "methods": ["POST", "OPTIONS"],
-      "headers": [
-        { "key": "Access-Control-Allow-Credentials", "value": "true" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
-      ]
+      "headers": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
+      }
     }
   ]
 }
