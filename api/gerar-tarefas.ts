@@ -6,15 +6,22 @@ const allowedOrigins = [
   "http://localhost:5173",
   "https://todolist-local-cicd.netlify.app",
 ];
-function setCORSHeaders(res: VercelResponse) {
-  res.setHeader("Access-Control-Allow-Origin", allowedOrigins);
+
+// Função para setar os cabeçalhos CORS corretamente
+function setCORSHeaders(req: VercelRequest, res: VercelResponse) {
+  const origin = req.headers.origin;
+
+  if (origin && allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader("Access-Control-Allow-Credentials", "true");
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  setCORSHeaders(res); // 🔐 Sempre setar
+  setCORSHeaders(req, res); // 🔐 Sempre setar
 
   if (req.method === "OPTIONS") {
     return res.status(204).end(); // ✅ Responde preflight
