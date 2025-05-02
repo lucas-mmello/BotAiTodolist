@@ -7,6 +7,9 @@
   "devDependencies": {
     "@netlify/functions": "^0.0.8"
   },
+  "engines": {
+    "node": ">=14"
+  },
   "scripts": {
     "dev": "netlify dev",
     "build": "netlify build",
