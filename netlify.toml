@@ -3,3 +3,11 @@
 
 [build.environment]
   NODE_VERSION = "16" # Versão do Node.js
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "https://todolist-local-cicd.netlify.app"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
+    Access-Control-Allow-Credentials = "true"

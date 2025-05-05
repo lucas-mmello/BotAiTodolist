@@ -32,6 +32,7 @@ exports.handler = async (event) => {
 
   // Pré-flight request (CORS)
   if (event.httpMethod === "OPTIONS") {
+    console.log("OPTIONS request");
     return {
       statusCode: 204,
       headers: corsHeaders,
