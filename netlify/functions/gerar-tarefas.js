@@ -74,8 +74,8 @@ exports.handler = async (event) => {
     // const tarefas = JSON.parse(content || "[]");
 
     const response = await openai.textGeneration({
-      provider: "replicate",
-      model: "black-forest-labs/Flux.1-dev",
+      provider: "cohere",
+      model: "large",
       inputs: `Você é um assistente que gera tarefas em formato JSON para uma lista de tarefas. Cada item deve conter "title", "description" e "text". Retorne apenas um array JSON.\n\n${input}`,
       parameters: {
         max_new_tokens: 500,
