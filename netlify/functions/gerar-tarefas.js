@@ -10,7 +10,9 @@ dotenv.config();
 import fetch from "node-fetch";
 global.fetch = fetch;
 
-const openai = new HfInference(process.env.OPENAI_API_KEY);
+const openai = new HfInference(process.env.OPENAI_API_KEY, {
+  fetch: fetch,
+});
 
 exports.handler = async (event) => {
   const allowedOrigins = [
