@@ -4,13 +4,13 @@
 //   new Configuration({ apiKey: process.env.OPENAI_API_KEY })
 // );
 
-import { HfInference } from "@huggingface/inference";
+import { HfInference, InferenceClient } from "@huggingface/inference";
 import dotenv from "dotenv";
 dotenv.config();
 import fetch from "node-fetch";
 global.fetch = fetch;
 
-const openai = new HfInference(process.env.OPENAI_API_KEY, {
+const openai = new InferenceClient(process.env.OPENAI_API_KEY, {
   fetch: fetch,
 });
 
@@ -74,7 +74,8 @@ exports.handler = async (event) => {
     // const tarefas = JSON.parse(content || "[]");
 
     const response = await openai.textGeneration({
-      model: "mistralai/Mistral-7B-Instruct-v0.1",
+      provider: "replicate",
+      model: "black-forest-labs/Flux.1-dev",
       inputs: `Você é um assistente que gera tarefas em formato JSON para uma lista de tarefas. Cada item deve conter "title", "description" e "text". Retorne apenas um array JSON.\n\n${input}`,
       parameters: {
         max_new_tokens: 500,
