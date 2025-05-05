@@ -22,9 +22,7 @@ exports.handler = async (event) => {
 
   const origin = event.headers.origin;
   const corsHeaders = {
-    "Access-Control-Allow-Origin": allowedOrigins.includes(origin)
-      ? origin
-      : "*",
+    "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Allow-Credentials": "true",
@@ -34,7 +32,7 @@ exports.handler = async (event) => {
   if (event.httpMethod === "OPTIONS") {
     console.log("OPTIONS request");
     return {
-      statusCode: 204,
+      statusCode: 200,
       headers: corsHeaders,
       body: "",
     };
