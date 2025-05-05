@@ -75,7 +75,7 @@ exports.handler = async (event) => {
 
     const response = await openai.textGeneration({
       provider: "together",
-      model: "togethercomputer/RedPajama-INCITE-7B-Instruct",
+      model: "meta-llama/Llama-2-70b-hf",
       inputs: `Você é um assistente que gera tarefas em formato JSON para uma lista de tarefas. Cada item deve conter "title", "description" e "text". Retorne apenas um array JSON.\n\n${input}`,
       parameters: {
         max_new_tokens: 500,
