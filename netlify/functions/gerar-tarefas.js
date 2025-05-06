@@ -93,6 +93,9 @@ exports.handler = async (event) => {
         max_new_tokens: 70,
         temperature: 0.7,
       },
+      options: {
+        wait_for_model: true,
+      },
     });
 
     const rawText = response.generated_text;
