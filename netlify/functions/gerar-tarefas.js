@@ -76,7 +76,7 @@ exports.handler = async (event) => {
     const response = await openai.textGeneration({
       provider: "together",
       model: "mistralai/Mixtral-8x7B-v0.1",
-      inputs: `Gere uma ou mais tarefas em formato JSON para uma lista de tarefas. Cada item deve conter "title", "description" e "text". Retorne apenas um array JSON. Pedido do usuário: ${input}`,
+      inputs: `Gere uma tarefa em formato JSON para uma lista de tarefas. A tarefa deve conter "title", "description" e "text". Retorne apenas um array JSON. Pedido do usuário: ${input}`,
       parameters: {
         max_new_tokens: 250,
         temperature: 0.7,
