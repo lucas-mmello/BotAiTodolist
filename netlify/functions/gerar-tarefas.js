@@ -90,8 +90,8 @@ exports.handler = async (event) => {
       
       Pedido do usuário: ${input}`,
       parameters: {
-        max_new_tokens: 70,
-        temperature: 0.7,
+        max_new_tokens: 50,
+        temperature: 0.3,
       },
       options: {
         wait_for_model: true,
