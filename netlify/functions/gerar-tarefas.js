@@ -84,6 +84,7 @@ exports.handler = async (event) => {
     });
 
     const rawText = response.generated_text;
+    console.log("response", response);
     console.log("Resposta:", rawText);
 
     let tarefas = [];
