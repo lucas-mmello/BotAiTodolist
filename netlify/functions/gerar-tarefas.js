@@ -90,7 +90,7 @@ exports.handler = async (event) => {
       
       Pedido do usuário: ${input}`,
       parameters: {
-        max_new_tokens: 100,
+        max_new_tokens: 70,
         temperature: 0.7,
       },
     });
