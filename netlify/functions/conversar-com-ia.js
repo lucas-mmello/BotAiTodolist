@@ -61,7 +61,8 @@ exports.handler = async (event) => {
             .join("\n")
         : "") + `\nUsuário: ${input}\nAssistente:`;
     const response = await openai.textGeneration({
-      model: "gpt2-medium",
+      provider: "together",
+      model: "mistralai/Mixtral-8x7B-v0.1",
       inputs: prompt,
       parameters: {
         max_new_tokens: 100,
